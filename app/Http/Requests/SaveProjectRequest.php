@@ -28,7 +28,6 @@ class SaveProjectRequest extends FormRequest
             "slug" => ["required", "unique:project,slug"],
             "description" => "required"
         ]; */
-        
         return [
             "title" => "required",
             "slug" => [
@@ -37,7 +36,7 @@ class SaveProjectRequest extends FormRequest
             ],
             "description" => "required",
             "image" => [
-                "required",
+                $this->route('project') ? '' : "required",
                 "mimes:jpeg,jpg,png,svg", // image = jpeg, png, bmp, gif, svg, webp
                 // "dimensions:width=600,height=400"
                 // "dimensions:min_width=400,min_height=200"

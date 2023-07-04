@@ -1,6 +1,9 @@
 @csrf
 <div class="form-group">
     {{-- <label for="file" class="form-label">Default file input example</label> --}}
+    @if ($project->image)
+        <img src="/storage/{{ $project->image }}" class="w-100" alt="">
+    @endif
     <input class="form-control" type="file" id="file" name="image" value="">
   </div>
 <div class="form-group">
