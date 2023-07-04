@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class PortfolioController extends Controller
+{
+    /**
+     * Handle the incoming request.
+     */
+    public function __invoke(Request $request)
+    {
+        $portfolio = [
+            ["title" => "Project N°1"],
+            ["title" => "Project N°2"],
+            ["title" => "Project N°3"],
+            ["title" => "Project N°4"],
+            ["title" => "Project N°5"]
+        ];
+        $nombre = "Tomás";
+
+        return view("portfolio")->with(compact("portfolio", "nombre"));
+    }
+}
