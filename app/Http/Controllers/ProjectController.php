@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SaveProjectRequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 // use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
@@ -103,9 +105,25 @@ class ProjectController extends Controller
      */
     public function update(SaveProjectRequest $request, Project $project)
     {
-        $project->image = $request->file("image")->store("images");
         
-        $project->update($request->only("title", "slug", "description"));
+        // ddd( $request->only("title", "slug", "description", "image") );
+        
+        if ($request->hasFile("image")) {
+
+            Storage::delete($project->image);
+
+            $project->fill($request->only("title", "slug", "description"));
+            
+            $project->image = $request->file("image")->store("images");
+            
+            $project->save();
+        } else {
+
+            // $project->update(array_filter($request->validated())));
+
+            $project->update($request->only("title", "slug", "description"));
+        }
+        
 
         $status = __("The project has been edited successfully");
 
