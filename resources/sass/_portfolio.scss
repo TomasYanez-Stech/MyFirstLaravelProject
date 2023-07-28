@@ -1,0 +1,7 @@
+a.badge {
+    padding: .5em;
+    transition: scale .1s ease-in-out;
+}
+a.badge:hover {
+    scale: 1.1;
+}

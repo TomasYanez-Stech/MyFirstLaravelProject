@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +35,9 @@ use Illuminate\Support\Facades\Auth;
 })->name("home");
  */
 
+/*  DB::listen(function($query) {
+    dump($query->sql);
+ }); */
 
 
 Route::view("/", "home")->name("home");
@@ -56,6 +61,11 @@ Route::delete("/projects/{project}", [ProjectController::class, "destroy"])->nam
 Route::resource('portfolio', ProjectController::class)
         ->names("projects")
         ->parameter("portfolio", "project");
+
+Route::patch('portfolio/{project}/restore', [ProjectController::class, 'restore'])->name('projects.restore');
+Route::delete('portfolio/{project}/force-delete', [ProjectController::class, 'forceDelete'])->name('projects.force-delete');
+        
+Route::get("categories/{category}", [CategoryController::class, 'show'])->name("categories.show");
 
 // Route::resource("/portfolio", PortfolioController::class)->name("index", "portfolio");
 // Route::resource("/portfolio", PortfolioController::class)->name("index", "portfolio"); // genera todos los métodos. TODO: Investigar que hace exactamente.

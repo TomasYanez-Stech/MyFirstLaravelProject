@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class SaveProjectRequest extends FormRequest
@@ -13,7 +14,7 @@ class SaveProjectRequest extends FormRequest
     public function authorize(): bool
     {
         /* $this === $request */
-        return true;
+        return Gate::allows("create-project");
     }
 
     /**
@@ -33,6 +34,10 @@ class SaveProjectRequest extends FormRequest
             "slug" => [
                 "required",
                 Rule::unique("project")->ignore( $this->route("project") )
+            ],
+            "category_id" => [
+                "required",
+                "exists:category,id"
             ],
             "description" => "required",
             "image" => [

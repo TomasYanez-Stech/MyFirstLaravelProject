@@ -3,7 +3,12 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+use App\Models\Project;
+use App\Policies\ProjectPolicy;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        // Project::class => ProjectPolicy::class
     ];
 
     /**
@@ -21,6 +26,17 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define('view-deleted-projects', function($user) {
+            return $user->role_id === 1 || $user->role_id === 2;
+        });
+
+        // Gate::define('write-project', function($user) {
+        //     return $user->role_id == 1;
+        // });
+            
+        // Gate::define('create-project', [ProjectPolicy::class, "create"]);
+        // Gate::define('delete-project', [ProjectPolicy::class, "delete"]);
+        // Gate::define('update-project', [ProjectPolicy::class, "update"]);
+
     }
 }
